@@ -1,0 +1,25 @@
+name: FancyShop
+version: ${project.version}
+main: org.quang1807.fancyshop.FancyShop
+api-version: 1.16
+author: quang1807
+description: Enhanced NPC trading system with multiple trade types (Kotlin Version)
+website: https://github.com/fin12n
+
+depend: [Vault]
+softdepend: [PlayerPoints, FancyNpcs, Citizens]
+
+commands:
+  fs:
+    description: FancyShop main command
+    usage: /fs [edit|reload|debug]
+    permission: fancyshop.admin
+    aliases: [fancyshop]
+
+permissions:
+  fancyshop.admin:
+    description: Access to FancyShop admin commands
+    default: op
+  fancyshop.use:
+    description: Use FancyShop trading
+    default: true
