@@ -1,0 +1,2 @@
+# FancyShop
+Recode plugins
