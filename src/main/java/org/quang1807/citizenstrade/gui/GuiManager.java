@@ -268,6 +268,7 @@ public class GuiManager {
         int startIndex = currentPage * TRADES_PER_PAGE;
         int endIndex = Math.min(startIndex + TRADES_PER_PAGE, totalTrades);
 
+        // QUAN TRỌNG: Luôn tạo lại tradeSlotsForPlayer mỗi lần mở GUI
         Map<Integer, String> tradeSlotsForPlayer = new HashMap<>();
         int lastDrawnRow = -1;
 
@@ -275,9 +276,14 @@ public class GuiManager {
             String tradeId = sortedTradeIds.get(i);
             int row = i % TRADES_PER_PAGE;
             drawTradeRow(gui, player, npcTradeMap.get(tradeId), row);
-            tradeSlotsForPlayer.put(5 + (row * 9), tradeId);
+
+            // Lưu mapping slot -> tradeId
+            int tradeSlot = 5 + (row * 9);
+            tradeSlotsForPlayer.put(tradeSlot, tradeId);
             lastDrawnRow = row;
         }
+
+        // QUAN TRỌNG: Cập nhật lại playerTradeSlots
         plugin.getPlayerTradeSlots().put(player.getUniqueId(), tradeSlotsForPlayer);
 
         // Fill empty slots
@@ -292,6 +298,7 @@ public class GuiManager {
 
         drawControlPanel(gui, player, currentPage, totalPages);
 
+        // Cập nhật currentTradeNpc
         plugin.getCurrentTradeNpc().put(player.getUniqueId(), npcId);
         player.openInventory(gui);
     }

@@ -85,7 +85,7 @@ public class CitizenShop extends JavaPlugin {
             }
         }.runTaskLater(this, 40L); // Increase delay for Citizens to fully load
 
-        getLogger().info("CitizenShop has been enabled!");
+        getLogger().info("CitizenTrade has been enabled!");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class CitizenShop extends JavaPlugin {
         if (tradeDataManager != null) {
             tradeDataManager.saveTrades();
         }
-        getLogger().info("CitizenShop has been disabled!");
+        getLogger().info("CitizenTrade has been disabled!");
     }
 
     private boolean setupDependencies() {

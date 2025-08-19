@@ -22,7 +22,7 @@ public class CommandManager implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        if (!player.hasPermission("citizenshop.admin")) {
+        if (!player.hasPermission("citizentrade.admin")) {
             player.sendMessage(plugin.getConfigManager().getMessage("no-permission"));
             return true;
         }

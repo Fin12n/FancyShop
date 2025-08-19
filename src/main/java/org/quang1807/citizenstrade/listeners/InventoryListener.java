@@ -276,15 +276,56 @@ public class InventoryListener implements Listener {
         }
 
         if (plugin.getTradeManager().executeTrade(player, trade, tradesToPerform)) {
+            // Gửi thông báo
             if (isShiftClick && tradesToPerform > 1) {
                 player.sendMessage(plugin.getConfigManager().getMessage("trade-completed-multiple")
                         .replace("{times}", String.valueOf(tradesToPerform)));
             } else {
                 player.sendMessage(plugin.getConfigManager().getMessage("trade-completed"));
             }
-            plugin.getGuiManager().openNpcShopGUI(player, npcId);
+
+            // QUAN TRỌNG: Xóa currentTradeId ngay lập tức
+            plugin.getCurrentTradeId().remove(player.getUniqueId());
+
+            // Delay mở lại GUI để đảm bảo inventory được update
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (player.isOnline()) {
+                        // Kiểm tra xem player có đang mở GUI shop không
+                        String currentTitle = "";
+                        try {
+                            Object view = player.getOpenInventory().getTopInventory().getHolder();
+                            if (view == null) { // Nghĩa là GUI được tạo bằng Bukkit.createInventory
+                                currentTitle = getInventoryTitle(player.getOpenInventory());
+                            }
+                        } catch (Exception e) {
+                            // Ignore
+                        }
+
+                        String shopTitle = plugin.getConfigManager().translateColors(
+                                plugin.getConfigManager().getGuiConfig().getString("npc-shop.title", "&1&lTrao Đổi"));
+
+                        // Chỉ mở lại nếu player vẫn đang trong shop GUI
+                        if (currentTitle.equals(shopTitle)) {
+                            plugin.getGuiManager().openNpcShopGUI(player, npcId);
+                        }
+                    }
+                }
+            }.runTaskLater(plugin, 2L); // Tăng delay lên 2 tick
         } else {
             player.sendMessage(plugin.getConfigManager().getMessage("trade-insufficient-items"));
+        }
+    }
+
+    // Thêm method helper để lấy inventory title
+    private String getInventoryTitle(org.bukkit.inventory.InventoryView view) {
+        try {
+            Method getTitleMethod = view.getClass().getMethod("getTitle");
+            getTitleMethod.setAccessible(true);
+            return (String) getTitleMethod.invoke(view);
+        } catch (Exception e) {
+            return "";
         }
     }
 
