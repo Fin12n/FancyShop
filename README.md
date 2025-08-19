@@ -1,6 +1,3 @@
-# FancyShop
-Dont use now! 
+# CitizenTrade
 
-Some error now!
-
-THANKS
+Made by Fin12n
