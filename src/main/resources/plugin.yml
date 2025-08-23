@@ -1,0 +1,25 @@
+name: CitizenTrade
+version: 3.1.1
+main: org.quang1807.citizenstrade.CitizenShop
+api-version: 1.16
+author: quang1807
+description: Enhanced NPC trading system with Citizens integration
+website: https://github.com/Fin12n/citizenshop
+
+depend: [Vault, Citizens]
+softdepend: [PlayerPoints]
+
+commands:
+  cs:
+    description: CitizenTrade main command
+    usage: /ct [edit|reload|debug]
+    permission: citizentrade.admin
+    aliases: [citizentrade]
+
+permissions:
+  citizenshop.admin:
+    description: Access to CitizenTrade admin commands
+    default: op
+  citizenshop.use:
+    description: Use CitizenTrade trading
+    default: true
